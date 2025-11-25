@@ -3,29 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category Introduction - Sociology Chronicle</title>
+    <title>Category - Sociology Chronicle</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="page-intro">
 
-    <header class="article-header">
-        <div class="container">
-            <a href="index.html" class="back-link">← Back to Timeline</a>
+    <!-- 共通ヘッダーモジュール -->
+    <header class="app-header">
+        <div class="header-left">
+            <button id="menu-toggle" class="menu-btn" aria-label="Menu">
+                <span class="menu-icon"></span>
+            </button>
+            <h1 class="header-title"><a href="index.html">Sociology Chronicle</a></h1>
+        </div>
+        
+        <!-- 右側固定パンくずリスト -->
+        <div class="header-right">
+            <nav id="breadcrumbs" class="breadcrumbs"></nav>
         </div>
     </header>
 
-    <main class="container intro-container">
-        <div id="intro-content" class="intro-body">
-            <h1 id="intro-title">Loading...</h1>
-            <div class="intro-meta" id="intro-meta"></div>
-            <div id="intro-desc" class="intro-text"></div>
-            
-            <div class="intro-actions">
-                <a id="intro-filter-link" href="#" class="btn-primary">このカテゴリの議論一覧を見る</a>
+    <!-- 共通レイアウトコンテナ -->
+    <div class="app-container">
+        
+        <!-- 共通サイドバーモジュール -->
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="sidebar-header-area">
+                    <p class="site-subtitle">The Archive of Sociological Debates</p>
+                </div>
+                
+                <div class="sidebar-content">
+                    <div id="sidebar-filters-mount">
+                        <!-- JSでフィルタリストをここに生成 -->
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <button id="reset-filters" class="btn-reset">Reset Filters</button>
+                </div>
             </div>
-        </div>
-    </main>
+        </aside>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <div class="intro-container">
+                <div id="intro-content" class="intro-body">
+                    <h1 id="intro-title">Loading...</h1>
+                    <div id="intro-desc" class="intro-text"></div>
+                    <div class="intro-actions">
+                        <a id="intro-filter-link" href="#" class="btn-primary">このカテゴリの議論一覧を見る</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- スマホ用オーバーレイ -->
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    </div>
 
     <script src="app.js"></script>
 </body>
