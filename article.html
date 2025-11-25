@@ -4,24 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article View - Sociology Chronicle</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_02.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Marked.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="page-article">
 
     <header class="article-header">
-        <div class="container">
-            <a href="index.html" class="back-link">← Back to Chronicle</a>
+        <div class="container header-inner">
+            <!-- パンくずリスト (JSで生成) -->
+            <nav id="breadcrumbs" class="breadcrumbs"></nav>
         </div>
     </header>
 
     <main class="container">
-        <!-- 記事メタデータ -->
-        <div id="article-meta" class="article-meta"></div>
-
-        <!-- 記事本文 (Markdownがここに展開されます) -->
+        <!-- 記事本文 -->
         <article id="article-content" class="article-body">
             <div class="loading">Loading Article...</div>
         </article>
@@ -33,6 +30,6 @@
         </section>
     </main>
 
-    <script src="app.js"></script>
+    <script src="app_02.js"></script>
 </body>
 </html>
