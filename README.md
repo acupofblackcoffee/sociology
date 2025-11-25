@@ -40,54 +40,51 @@
     ├── de.md            # ドイツ社会学の解説
     ├── rationalization.md # 合理化の解説
     └── ...
+
 ```
 
-## 3. データ仕様 (Data Schema)
+## 3. 開発環境・実行方法 (How to Run)
 
-サイトの挙動を制御する3つのJSONファイルの仕様です。
+このサイトは `fetch` APIを使用してローカルのJSONやMarkdownファイルを読み込みます。ブラウザのセキュリティポリシー（CORS）により、HTMLファイルを直接ダブルクリックして開くと動作しない場合があります。
+
+### 推奨される実行方法
+
+VS Codeの拡張機能 **「Live Server」** を使用してください。
+
+1. VS Codeでプロジェクトフォルダを開く。
+    
+2. `index.html` を右クリックし、**"Open with Live Server"** を選択。
+    
+3. ローカルサーバー（例: `http://127.0.0.1:5500`）上でサイトが起動します。
+    
+
+## 4. データ仕様と命名規則 (Data Schema & Conventions)
 
 ### ① `data/main_data.json` (記事インデックス)
 
-すべての記事（用語、人物、論争）のメタデータを管理します。ここに登録しないとサイトに表示されません。
-
-|   |   |   |   |
-|---|---|---|---|
-|**キー**|**型**|**説明**|**例**|
-|`id`|string|一意のID。記事ファイル名と揃えるのが推奨。|`"term_mcdonaldization"`|
-|`type`|string|記事の種類 (`term`, `person`, `debate`)。|`"term"`|
-|`title`|string|表示タイトル。|`"マクドナルド化"`|
-|`era_id`|string|年代ID (`taxonomy.json`と紐付け)。|`"era_late_modern"`|
-|`country_id`|string|国家ID (`taxonomy.json`と紐付け)。|`"us"`|
-|`field_tags`|array|分野IDのリスト。複数可。|`["theory", "econ"]`|
-|`topic_tags`|array|論点IDのリスト。複数可。|`["rationalization"]`|
-|`file`|string|読み込むMarkdownファイル名。**`null`にすると「スタブ（未執筆）」扱い**になる。|`"mcdonaldization.md"`|
-|`summary`|string|カードやツールチップに表示される短い要約。|`"効率性が社会を支配する過程。"`|
+| **キー** | **型** | **説明** | **命名規則 (Naming Convention)** | | `id` | string | 一意のID。記事ファイル名と一致させる。 | `term_xxx` (用語), `person_xxx` (人物), `debate_xxx` (論争) | | `type` | string | 記事の種類。 | `"term"`, `"person"`, `"debate"` | | `title` | string | 表示タイトル。 | 正式名称 | | `era_id` | string | 年代ID (`taxonomy.json`参照)。 | `era_xxx` | | `country_id` | string | 国家ID (`taxonomy.json`参照)。 | `de`, `fr`, `us`, `jp`, `uk` (ISO 2文字コード推奨) | | `field_tags` | array | 分野IDリスト。 | `theory`, `urban`, `family` 等 | | `topic_tags` | array | 論点IDリスト。 | 英語の小文字スネークケース推奨 (例: `structure_agency`) | | `file` | string | マークダウンファイル名。**`null`でスタブ化**。 | `id` + `.md` (例: `term_anomie.md`) | | `summary` | string | 短い要約（カード表示用）。 | 40〜60文字程度推奨。 |
 
 ### ② `data/taxonomy.json` (マスタデータ)
 
-フィルタリングに使われるカテゴリ（選択肢）の定義です。
+フィルタリング項目の定義。
 
 - **`eras`**: 年代リスト
     
 - **`countries`**: 国家リスト
     
-- **`fields`**: 分野リスト (理論、都市、家族など)
+- **`fields`**: 分野リスト
     
-- **`topics`**: 論点リスト (合理化、構造と主体など)
+- **`topics`**: 論点リスト
     
-
-各アイテムは `{ "id": "一意のID", "label": "表示名" }` の形式で記述します。 ※ここのIDと、`main_data.json` のタグIDが一致している必要があります。
 
 ### ③ `data/references.json` (文献データ)
 
-記事内で引用される文献の一元管理リストです。
+記事内で `<cite id="ref_key"></cite>` として引用する文献リスト。
 
-|   |   |   |
-|---|---|---|
-|**キー (RefID)**|**内容オブジェクト**|**説明**|
-|`ref_ritzer_1993`|`{ author, year, title, url }`|記事内から `<cite id="ref_ritzer_1993"></cite>` で呼び出される。|
+- **ID命名規則:** `ref_著者名_発行年` （例: `ref_ritzer_1993`, `ref_weber_1905`）
+    
 
-## 4. コンテンツ追加フロー
+## 5. コンテンツ追加フロー
 
 ### A. 新しい「記事」を追加する場合
 
@@ -103,26 +100,33 @@
     - これだけで、他の記事内にその単語が登場した際、自動的に「点線の下線」が引かれ、要約が表示されるようになります。
         
 
-### C. 「カテゴリ解説」を追加する場合（例：フランス社会学とは）
+### C. 「カテゴリ解説」を追加する場合
 
 1. **Markdown作成:** `introductions/` フォルダに、**カテゴリIDと同じ名前**のファイルを作成する（例: `fr.md`）。
     
-2. **自動反映:** `taxonomy.json` にそのIDが存在していれば、自動的に「ℹ️」ボタンやパンくずリストからリンクされます。
+2. **自動反映:** `taxonomy.json` にそのIDが存在していれば、自動的に「Bookアイコン」やパンくずリストからリンクされます。
     
 
-## 5. 技術スタック
+## 6. デプロイ（公開）について
+
+GitHub Pagesなどの静的ホスティングサービスで即座に公開可能です。ビルドプロセスは不要です。
+
+- **GitHub Pagesの設定:**
+    
+    - リポジトリ設定 > Pages > Source を `main` ブランチの `/ (root)` に設定するだけ。
+        
+
+## 7. 技術スタック
 
 - **Frontend:** HTML5, CSS3, Vanilla JavaScript (ES6+)
     
 - **Markdown Engine:** [marked.js](https://github.com/markedjs/marked "null") (CDN読み込み)
     
-- **Infrastructure:** 静的ホスティング (GitHub Pages等で動作可能)
-    
 
-## 6. 今後の拡張アイデア
+## 8. 今後の拡張アイデア
 
-- 全文検索機能の実装
+- 全文検索機能の実装（クライアントサイド検索）
     
-- 引用ネットワークの可視化（D3.js等）
+- 引用ネットワークの可視化（D3.js等で相関図を描画）
     
 - ダークモード対応
