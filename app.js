@@ -2,6 +2,7 @@ const DATA_PATH = {
     main: 'data/main_data.json',
     taxonomy: 'data/taxonomy.json',
     references: 'data/references.json'
+    // intro: ... ← 解説用JSONは不要になったので削除
 };
 
 let state = {
@@ -14,12 +15,11 @@ let state = {
 document.addEventListener('DOMContentLoaded', async () => {
     await loadAllData();
     setupHamburgerMenu();
-    
-    // 全ページ共通: サイドバーのフィルタ生成
     renderSidebarFilters(); 
-
-    // 全ページ共通: パンくずリスト生成（初期状態）
-    updateBreadcrumbs();
+    
+    // パンくず初期化
+    const breadcrumbs = document.getElementById('breadcrumbs');
+    if(breadcrumbs) breadcrumbs.innerHTML = `<a href="index.html">TOP</a>`;
 
     if (document.body.classList.contains('page-index')) {
         initIndexPage();
@@ -40,9 +40,10 @@ async function loadAllData() {
         state.mainData = main;
         state.taxonomy = tax;
         state.references = refs;
-    } catch (e) { console.error(e); }
+    } catch (e) { console.error("Data Load Error:", e); }
 }
 
+/* --- ハンバーガーメニュー制御 --- */
 function setupHamburgerMenu() {
     const toggle = document.getElementById('menu-toggle');
     const overlay = document.getElementById('sidebar-overlay');
@@ -60,18 +61,15 @@ function setupHamburgerMenu() {
     }
 }
 
-/* --- 全ページ共通: サイドバーのフィルタ描画 --- */
+/* --- サイドバーフィルタ生成 --- */
 function renderSidebarFilters() {
     const mountPoint = document.getElementById('sidebar-filters-mount');
     if (!mountPoint) return;
 
-    // 現在がトップページかどうか判定
     const isIndex = document.body.classList.contains('page-index');
 
-    // フィルタグループを生成する関数
     const createFilterGroup = (label, type, items) => {
         const details = document.createElement('details');
-        // 初期状態は開いておく（お好みで）
         if (type === 'eras') details.open = true;
 
         const summary = document.createElement('summary');
@@ -84,18 +82,17 @@ function renderSidebarFilters() {
         items.forEach(item => {
             const div = document.createElement('div');
             div.className = 'checkbox-item';
+            const introLink = `intro.html?type=${type}&id=${item.id}`;
 
             if (isIndex) {
-                // --- トップページの場合: チェックボックスを表示 ---
                 div.innerHTML = `
                     <label>
                         <input type="checkbox" value="${item.id}" data-group="${type}">
                         ${item.label}
                     </label>
-                    <a href="intro.html?type=${type}&id=${item.id}" class="intro-link-btn" title="解説"><span class="book-icon"></span></a>
+                    <a href="${introLink}" class="intro-link-btn" title="解説"><span class="book-icon"></span></a>
                 `;
             } else {
-                // --- 他のページの場合: リンクを表示 (クリックでトップへ検索遷移) ---
                 let filterKey = "";
                 if(type === 'countries') filterKey = 'country';
                 if(type === 'eras') filterKey = 'era';
@@ -106,17 +103,16 @@ function renderSidebarFilters() {
                     <a href="index.html?${filterKey}=${item.id}" style="text-decoration:none; color:inherit; font-size:0.9rem; display:block; width:100%;">
                         ${item.label}
                     </a>
-                    <a href="intro.html?type=${type}&id=${item.id}" class="intro-link-btn" title="解説"><span class="book-icon"></span></a>
+                    <a href="${introLink}" class="intro-link-btn" title="解説"><span class="book-icon"></span></a>
                 `;
             }
             listDiv.appendChild(div);
         });
 
         details.appendChild(listDiv);
-        return details; // <div class="filter-group">で囲む場合は修正
+        return details;
     };
 
-    // グループ作成 & 追加
     const wrap = (el) => {
         const g = document.createElement('div');
         g.className = 'filter-group';
@@ -133,7 +129,6 @@ function renderSidebarFilters() {
     }
     mountPoint.appendChild(wrap(createFilterGroup('論点 (Topic)', 'topics', state.taxonomy.topics)));
 
-    // イベントリスナー (トップページのみ)
     if (isIndex) {
         mountPoint.querySelectorAll('input[type="checkbox"]').forEach(input => {
             input.addEventListener('change', (e) => {
@@ -143,43 +138,39 @@ function renderSidebarFilters() {
         });
         document.getElementById('reset-filters').addEventListener('click', resetFilters);
     } else {
-        // 他のページではリセットボタンを押したらトップへ
         document.getElementById('reset-filters').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
     }
 }
 
-
-/* --- 共通: パンくずリスト更新 --- */
-function updateBreadcrumbs(item = null) {
+/* --- パンくずリスト更新 --- */
+function updateBreadcrumbs(item = null, categoryLabel = null) {
     const nav = document.getElementById('breadcrumbs');
     if (!nav) return;
 
     let html = `<a href="index.html">TOP</a>`;
 
     if (item) {
-        // 記事ページなどの場合
         const countryLabel = state.taxonomy.countries.find(c => c.id === item.country_id)?.label || 'Unknown';
         const fieldId = item.field_tags && item.field_tags.length > 0 ? item.field_tags[0] : null;
         const fieldLabel = fieldId ? (state.taxonomy.fields.find(f => f.id === fieldId)?.label || fieldId) : '';
 
-        html += ` <span class="crumb-separator">&gt;</span> <a href="index.html?country=${item.country_id}">${countryLabel}</a>`;
+        html += ` <span class="crumb-separator">/</span> <a href="index.html?country=${item.country_id}">${countryLabel}</a>`;
         if (fieldLabel) {
-            html += ` <span class="crumb-separator">&gt;</span> <a href="index.html?field=${fieldId}">${fieldLabel}</a>`;
+            html += ` <span class="crumb-separator">/</span> <a href="index.html?field=${fieldId}">${fieldLabel}</a>`;
         }
-        // タイトルが長い場合は省略するなどCSSで対応
-        html += ` <span class="crumb-separator">&gt;</span> <span>${item.title}</span>`;
-    } 
-    // トップページや特定のフィルタ状態の表示ロジックを入れることも可能
+        html += ` <span class="crumb-separator">/</span> <span>${item.title}</span>`;
+    } else if (categoryLabel) {
+        html += ` <span class="crumb-separator">/</span> <span>${categoryLabel}</span>`;
+    }
 
     nav.innerHTML = html;
 }
 
-
 /* --- Index Page Logic --- */
 function initIndexPage() {
-    renderTimeline(); // 初期表示
+    renderTimeline();
 
     const params = new URLSearchParams(window.location.search);
     if(params.has('country')) updateFilterState('countries', params.get('country'), true);
@@ -262,7 +253,6 @@ async function initArticlePage() {
     const item = state.mainData.find(d => d.id === id);
     if (!item) return;
 
-    // パンくず更新
     updateBreadcrumbs(item);
 
     try {
@@ -319,26 +309,35 @@ function processCitations(element) {
     });
 }
 
-/* --- Intro Page Logic --- */
-function initIntroPage() {
+/* --- Intro Page Logic (Markdown読み込み対応) --- */
+async function initIntroPage() {
     const params = new URLSearchParams(window.location.search);
     const type = params.get('type');
     const id = params.get('id');
 
-    let data = null;
+    let labelData = null;
     if (state.taxonomy[type]) {
-        data = state.taxonomy[type].find(d => d.id === id);
+        labelData = state.taxonomy[type].find(d => d.id === id);
     }
     
-    if (data) {
-        // パンくず更新 (シンプルに)
-        const nav = document.getElementById('breadcrumbs');
-        nav.innerHTML = `<a href="index.html">TOP</a> <span class="crumb-separator">&gt;</span> <span>${data.label}</span>`;
+    if (labelData) {
+        updateBreadcrumbs(null, labelData.label);
+        document.getElementById('intro-title').textContent = labelData.label;
 
-        document.getElementById('intro-title').textContent = data.label;
-        document.getElementById('intro-desc').innerHTML = data.description 
-            ? marked.parse(data.description) 
-            : `<p>解説準備中</p>`;
+        // ★ここが修正点: introductionsフォルダからMarkdownファイルをfetchする
+        try {
+            // 例: introductions/de.md を読み込む
+            const res = await fetch(`introductions/${id}.md`);
+            
+            if(res.ok) {
+                const text = await res.text();
+                document.getElementById('intro-desc').innerHTML = marked.parse(text);
+            } else {
+                document.getElementById('intro-desc').innerHTML = `<p>現在、${labelData.label}に関する詳細な解説は準備中です。</p>`;
+            }
+        } catch(e) {
+            document.getElementById('intro-desc').innerHTML = `<p>解説データの読み込みに失敗しました。</p>`;
+        }
         
         let filterKey = "";
         if(type === 'countries') filterKey = 'country';
@@ -347,5 +346,7 @@ function initIntroPage() {
         if(type === 'topics') filterKey = 'topic';
 
         document.getElementById('intro-filter-link').href = `index.html?${filterKey}=${id}`;
+    } else {
+        document.getElementById('intro-title').textContent = "Category Not Found";
     }
 }
