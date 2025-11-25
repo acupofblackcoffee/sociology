@@ -1,0 +1,15 @@
+{
+  "eras": [
+    { "id": "era_early", "label": "古典期 (19世紀末)" },
+    { "id": "era_mid", "label": "機能主義の時代 (20世紀中)" },
+    { "id": "era_late_modern", "label": "ポストモダン/現代 (20世紀後半-)" }
+  ],
+  "countries": [
+    { "id": "de", "label": "ドイツ", "code": "DE" },
+    { "id": "fr", "label": "フランス", "code": "FR" },
+    { "id": "us", "label": "アメリカ", "code": "US" }
+  ],
+  "topics": [
+    "合理化", "管理社会", "秩序問題", "構造と主体"
+  ]
+}
