@@ -1,15 +1,21 @@
 {
   "eras": [
-    { "id": "era_early", "label": "古典期 (19世紀末)" },
-    { "id": "era_mid", "label": "機能主義の時代 (20世紀中)" },
-    { "id": "era_late_modern", "label": "ポストモダン/現代 (20世紀後半-)" }
+    { "id": "era_early", "label": "古典期 (19世紀末)", "description": "## 社会学の黎明期\nデュルケーム、ウェーバー、ジンメルらが活躍し、社会学の基礎が築かれた時代。" },
+    { "id": "era_late_modern", "label": "ポストモダン/現代", "description": "## 液状化する社会\n大きな物語の終焉と、リスク社会化。" }
   ],
   "countries": [
-    { "id": "de", "label": "ドイツ", "code": "DE" },
-    { "id": "fr", "label": "フランス", "code": "FR" },
-    { "id": "us", "label": "アメリカ", "code": "US" }
+    { "id": "de", "label": "ドイツ", "code": "DE", "description": "## ドイツ社会学の系譜\n哲学的な背景を持ち、意味解釈や歴史性を重視する伝統がある。" },
+    { "id": "fr", "label": "フランス", "code": "FR", "description": "## フランス社会学の系譜\nデュルケームに始まる構造主義的なアプローチが特徴。" },
+    { "id": "us", "label": "アメリカ", "code": "US", "description": "## アメリカ社会学の系譜\nシカゴ学派に代表されるフィールドワークや、プラグマティックな研究が多い。" }
+  ],
+  "fields": [
+    { "id": "theory", "label": "理論社会学", "description": "社会とは何か、行為とは何かといった根本概念を探求する。" },
+    { "id": "urban", "label": "都市社会学", "description": "都市化に伴う社会構造の変化や生活様式を研究する。" },
+    { "id": "family", "label": "家族社会学", "description": "家族の形態、機能、変容を研究する。" },
+    { "id": "econ", "label": "経済社会学", "description": "経済活動を社会的文脈から分析する。" }
   ],
   "topics": [
-    "合理化", "管理社会", "秩序問題", "構造と主体"
+    { "id": "rationalization", "label": "合理化", "description": "効率性や計算可能性が社会を支配していく過程。" },
+    { "id": "structure_agency", "label": "構造と主体" }
   ]
 }
