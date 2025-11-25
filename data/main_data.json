@@ -1,0 +1,32 @@
+[
+  {
+    "id": "term_mcdonaldization",
+    "type": "term",
+    "title": "マクドナルド化",
+    "era_id": "era_late_modern",
+    "country_id": "us",
+    "field_tags": ["理論社会学", "消費社会論"],
+    "topic_tags": ["合理化", "管理社会"],
+    "file": "mcdonaldization.md",
+    "summary": "ファストフード店の原理（効率性・計算可能性等）が社会のあらゆる部門を支配していく過程。"
+  },
+  {
+    "id": "term_iron_cage",
+    "type": "term",
+    "title": "鉄の檻",
+    "era_id": "era_early",
+    "country_id": "de",
+    "field_tags": ["理論社会学"],
+    "file": null,
+    "summary": "ウェーバーの概念。近代的合理化の果てに、人間が官僚制という逃げ場のないシステムに拘束される状態。"
+  },
+  {
+    "id": "person_weber",
+    "type": "person",
+    "title": "マックス・ウェーバー",
+    "era_id": "era_early",
+    "country_id": "de",
+    "file": null,
+    "summary": "理解社会学の創始者。合理化のパラドックスを指摘した。"
+  }
+]
