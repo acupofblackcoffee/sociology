@@ -1,0 +1,293 @@
+:root {
+    --bg-color: #f9f9f9;
+    --sidebar-bg: #ffffff;
+    --text-main: #2c3e50;
+    --text-muted: #7f8c8d;
+    --accent-color: #34495e;
+    --border-color: #e0e0e0;
+    --link-color: #2980b9;
+    --link-hover: #3498db;
+    
+    /* カードのタグ色 */
+    --tag-era-bg: #ecf0f1;
+    --tag-country-bg: #e8f6f3;
+    --tag-field-bg: #fef9e7;
+    
+    /* ツールチップ */
+    --tooltip-bg: #222;
+    --tooltip-text: #fff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text-main);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, .site-title, article h1, article h2 {
+    font-family: 'Noto Serif JP', serif;
+}
+
+/* --- Layout (Index) --- */
+.layout-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 280px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 2rem;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.main-content {
+    flex-grow: 1;
+    margin-left: 280px; /* Sidebar width */
+    padding: 2rem 3rem;
+}
+
+.site-title {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+}
+
+.site-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Filters */
+.filter-group {
+    margin-bottom: 1.5rem;
+}
+
+.filter-group h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+
+.checkbox-list label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.checkbox-list input {
+    margin-right: 0.5rem;
+}
+
+.btn-reset {
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.btn-reset:hover {
+    background: var(--text-muted);
+    color: white;
+}
+
+/* Timeline Cards */
+.timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.card-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+.tag.era { background: var(--tag-era-bg); }
+.tag.country { background: var(--tag-country-bg); }
+
+.card-title {
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.card-summary {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+}
+
+/* Active Filters Bar */
+.active-filters-bar {
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+.active-tag {
+    background: var(--accent-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-right: 5px;
+    font-size: 0.8rem;
+}
+
+/* --- Article Page --- */
+.page-article .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.article-header {
+    background: white;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+}
+
+.back-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: bold;
+}
+
+.article-body {
+    background: white;
+    padding: 3rem;
+    margin-top: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    font-size: 1.05rem;
+}
+
+.article-body h1 {
+    font-size: 2rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.article-body h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+/* Term Links & Stubs */
+.term-link {
+    color: var(--text-main);
+    text-decoration: underline wavy var(--link-hover);
+    text-underline-offset: 3px;
+    cursor: help;
+    font-weight: 500;
+    position: relative;
+}
+
+.term-stub {
+    color: var(--text-muted);
+    text-decoration: underline dotted #aaa;
+    text-underline-offset: 3px;
+    cursor: help;
+    position: relative;
+}
+
+/* Tooltip (Hover effect) */
+.term-link::after,
+.term-stub::after {
+    content: attr(data-desc);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-5px);
+    background: var(--tooltip-bg);
+    color: var(--tooltip-text);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-weight: normal;
+}
+
+.term-link:hover::after,
+.term-stub:hover::after {
+    opacity: 1;
+}
+
+/* Citations */
+cite {
+    font-style: normal;
+    font-size: 0.8em;
+    vertical-align: super;
+    color: var(--link-color);
+    cursor: pointer;
+    margin-left: 2px;
+}
+
+cite::before { content: '['; }
+cite::after { content: ']'; }
+
+.references-section {
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+    font-size: 0.9rem;
+}
+.references-section ul {
+    list-style: none;
+    padding: 0;
+}
+.references-section li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    text-indent: -1.5rem;
+}
