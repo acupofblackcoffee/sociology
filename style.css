@@ -249,7 +249,7 @@ summary:hover { color: var(--accent-color); }
 .crumb-separator { margin: 0 4px; color: #d0d7de; }
 
 /* Article & Citations */
-.article-body { background: #fff; max-width: 800px; margin: 0 auto; padding: 0 1rem 4rem 1rem; }
+.article-body { background: #fff; max-width: 800px; margin: 0 auto; padding: 3rem 1rem 4rem 1rem; }
 .article-body h1 { font-size: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 32px; }
 .article-body h2 { font-size: 1.5rem; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
 .term-link { color: var(--accent-color); font-weight: 500; text-decoration: none; border-bottom: 1px dotted var(--accent-color); }
