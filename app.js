@@ -37,20 +37,27 @@ async function loadAllData() {
     } catch (e) { console.error("Data Load Error:", e); }
 }
 
-/* ハンバーガーメニュー制御 */
+/* --- ハンバーガーメニュー制御 (Gemini風 Pushロジック) --- */
 function setupHamburgerMenu() {
     const toggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
+    // const sidebar = document.getElementById('sidebar'); // もう直接操作しません
     const overlay = document.getElementById('sidebar-overlay');
     
     if(!toggle) return;
 
-    const closeMenu = () => {
-        sidebar.classList.remove('active');
+    // メニューの開閉状態を切り替える関数
+    const toggleMenu = () => {
+        // bodyにクラスをつけることで、CSSで全体を制御します
+        document.body.classList.toggle('nav-open');
     };
 
-    toggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
+    const closeMenu = () => {
+        document.body.classList.remove('nav-open');
+    }
+
+    toggle.addEventListener('click', (e) => {
+        e.stopPropagation(); // クリックイベントの伝播を止める
+        toggleMenu();
     });
 
     if(overlay) overlay.addEventListener('click', closeMenu);
@@ -93,7 +100,6 @@ function renderFilters() {
     const createItem = (id, label, group) => {
         const div = document.createElement('div');
         div.className = 'checkbox-item';
-        // Bookアイコンを使用
         div.innerHTML = `
             <label>
                 <input type="checkbox" value="${id}" data-group="${group}">
@@ -157,7 +163,6 @@ function renderTimeline() {
             card.style.cursor = 'default';
         }
 
-        // Termタグは削除、メタ情報のみ表示
         card.innerHTML = `
             <div class="card-meta">
                 <span class="tag era">${eraLabel}</span>
@@ -184,7 +189,6 @@ async function initArticlePage() {
     const item = state.mainData.find(d => d.id === id);
     if (!item) return;
 
-    // パンくず生成
     const breadcrumbs = document.getElementById('breadcrumbs');
     const countryLabel = state.taxonomy.countries.find(c => c.id === item.country_id)?.label || 'Unknown';
     const fieldId = item.field_tags && item.field_tags.length > 0 ? item.field_tags[0] : null;
@@ -208,7 +212,6 @@ async function initArticlePage() {
             const contentEl = document.getElementById('article-content');
             contentEl.innerHTML = html;
             
-            // ★復活させた参考文献処理
             processCitations(contentEl);
         }
     } catch(e) { console.error(e); }
@@ -229,7 +232,6 @@ function applyAutoLinker(html, currentId) {
     return newHtml;
 }
 
-// 参考文献処理関数（前回消えていたものを復活）
 function processCitations(element) {
     const cites = element.querySelectorAll('cite');
     const refList = document.getElementById('references-list');
@@ -238,16 +240,14 @@ function processCitations(element) {
     if (cites.length === 0) return;
 
     refArea.style.display = 'block';
-    refList.innerHTML = ''; // クリア
+    refList.innerHTML = '';
     
     cites.forEach((cite, index) => {
         const refId = cite.id;
         const refData = state.references[refId];
         
-        // 本文中の番号書き換え [1]
         cite.textContent = index + 1;
         
-        // リストに追加
         if (refData) {
             const li = document.createElement('li');
             li.innerHTML = `
@@ -258,4 +258,33 @@ function processCitations(element) {
             refList.appendChild(li);
         }
     });
+}
+
+function initIntroPage() {
+    // Intro Page logic remains same as previous version but ensures links are correct if any
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+    const id = params.get('id');
+
+    let data = null;
+    if (state.taxonomy[type]) {
+        data = state.taxonomy[type].find(d => d.id === id);
+    }
+    
+    if (data) {
+        document.getElementById('intro-title').textContent = data.label;
+        document.getElementById('intro-desc').innerHTML = data.description 
+            ? marked.parse(data.description) 
+            : `<p>${data.label}に関する詳細な解説は準備中です。</p>`;
+        
+        let filterKey = "";
+        if(type === 'countries') filterKey = 'country';
+        if(type === 'eras') filterKey = 'era';
+        if(type === 'fields') filterKey = 'field';
+        if(type === 'topics') filterKey = 'topic';
+
+        document.getElementById('intro-filter-link').href = `index.html?${filterKey}=${id}`;
+    } else {
+        document.getElementById('intro-title').textContent = "Category Not Found";
+    }
 }
