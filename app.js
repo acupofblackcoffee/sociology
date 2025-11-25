@@ -1,8 +1,8 @@
 const DATA_PATH = {
     // バージョン02のJSONファイルを参照します
-    main: 'data/main_data_02.json',
-    taxonomy: 'data/taxonomy_02.json',
-    references: 'data/references_02.json'
+    main: 'data/main_data.json',
+    taxonomy: 'data/taxonomy.json',
+    references: 'data/references.json'
 };
 
 let state = {
@@ -39,7 +39,7 @@ async function loadAllData() {
         state.references = refs;
     } catch (e) {
         console.error("Data Load Error:", e);
-        alert("データの読み込みに失敗しました。ファイル名(_02)を確認してください。");
+        alert("データの読み込みに失敗しました。ファイル名()を確認してください。");
     }
 }
 
@@ -104,13 +104,13 @@ function renderFilters() {
     const createItem = (id, label, group) => {
         const div = document.createElement('div');
         div.className = 'checkbox-item';
-        // ℹ️ボタンのリンク先: intro_02.html
+        // ℹ️ボタンのリンク先: intro.html
         div.innerHTML = `
             <label>
                 <input type="checkbox" value="${id}" data-group="${group}">
                 ${label}
             </label>
-            <a href="intro_02.html?type=${group}&id=${id}" class="info-icon" title="${label}について">ℹ️</a>
+            <a href="intro.html?type=${group}&id=${id}" class="info-icon" title="${label}について">ℹ️</a>
         `;
         return div;
     };
@@ -169,7 +169,7 @@ function renderTimeline() {
         // カード生成
         const card = document.createElement('a');
         card.className = 'card';
-        if(item.file) card.href = `article_02.html?id=${item.id}`;
+        if(item.file) card.href = `article.html?id=${item.id}`;
         
         // Termバッジは削除しましたが、スタブ（記事なし）の場合はクリック不可にする
         if(!item.file) {
@@ -210,10 +210,10 @@ async function initArticlePage() {
     const fieldId = item.field_tags && item.field_tags.length > 0 ? item.field_tags[0] : null;
     const fieldLabel = fieldId ? (state.taxonomy.fields.find(f => f.id === fieldId)?.label || fieldId) : '';
 
-    let breadcrumbHTML = `<a href="index_02.html">TOP</a> <span class="crumb-separator">&gt;</span> `;
-    breadcrumbHTML += `<a href="index_02.html?country=${item.country_id}">${countryLabel}</a> <span class="crumb-separator">&gt;</span> `;
+    let breadcrumbHTML = `<a href="index.html">TOP</a> <span class="crumb-separator">&gt;</span> `;
+    breadcrumbHTML += `<a href="index.html?country=${item.country_id}">${countryLabel}</a> <span class="crumb-separator">&gt;</span> `;
     if(fieldLabel) {
-        breadcrumbHTML += `<a href="index_02.html?field=${fieldId}">${fieldLabel}</a> <span class="crumb-separator">&gt;</span> `;
+        breadcrumbHTML += `<a href="index.html?field=${fieldId}">${fieldLabel}</a> <span class="crumb-separator">&gt;</span> `;
     }
     breadcrumbHTML += `<span>${item.title}</span>`;
     
@@ -225,7 +225,7 @@ async function initArticlePage() {
         if(res.ok) {
             const text = await res.text();
             let html = marked.parse(text);
-            // 自動リンク (リンク先は article_02.html に変更)
+            // 自動リンク (リンク先は article.html に変更)
             html = applyAutoLinker(html, item.id);
             document.getElementById('article-content').innerHTML = html;
         }
@@ -239,7 +239,7 @@ function applyAutoLinker(html, currentId) {
         const regex = new RegExp(`(${term.title})`, 'i');
         if (regex.test(newHtml)) {
             const replacement = term.file 
-                ? `<a href="article_02.html?id=${term.id}" class="term-link" data-desc="${term.summary}">$1</a>`
+                ? `<a href="article.html?id=${term.id}" class="term-link" data-desc="${term.summary}">$1</a>`
                 : `<span class="term-stub" data-desc="${term.summary} (未執筆)">$1</span>`;
             newHtml = newHtml.replace(regex, replacement);
         }
@@ -271,7 +271,7 @@ function initIntroPage() {
         if(type === 'fields') filterKey = 'field';
         if(type === 'topics') filterKey = 'topic';
 
-        document.getElementById('intro-filter-link').href = `index_02.html?${filterKey}=${id}`;
+        document.getElementById('intro-filter-link').href = `index.html?${filterKey}=${id}`;
     } else {
         document.getElementById('intro-title').textContent = "Category Not Found";
     }
