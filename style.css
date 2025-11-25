@@ -1,12 +1,13 @@
 :root {
     --bg-color: #ffffff;
-    --sidebar-bg: #f6f8fa; /* GitHub風の薄いグレー */
+    --sidebar-bg: #f6f8fa;
     --header-height: 60px;
     --sidebar-width: 300px;
     --text-main: #24292f;
     --text-muted: #57606a;
-    --accent-color: #0969da; /* GitHub Blue */
+    --accent-color: #0969da;
     --border-color: #d0d7de;
+    --transition-speed: 0.3s; /* アニメーション速度 */
 }
 
 body {
@@ -32,6 +33,8 @@ h1, h2, h3 { font-family: 'Noto Serif JP', serif; }
     left: 0;
     right: 0;
     z-index: 1000;
+    /* アニメーション設定 */
+    transition: padding-left var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .menu-btn {
@@ -41,10 +44,10 @@ h1, h2, h3 { font-family: 'Noto Serif JP', serif; }
     padding: 8px;
     margin-right: 16px;
     border-radius: 6px;
+    flex-shrink: 0;
 }
 .menu-btn:hover { background-color: #f3f4f6; }
 
-/* ハンバーガーアイコン (CSSで描画) */
 .menu-icon {
     display: block;
     width: 18px;
@@ -68,6 +71,9 @@ h1, h2, h3 { font-family: 'Noto Serif JP', serif; }
     font-weight: bold;
     color: var(--text-main);
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* --- Sidebar (Drawer) --- */
@@ -80,12 +86,13 @@ h1, h2, h3 { font-family: 'Noto Serif JP', serif; }
     background: var(--sidebar-bg);
     border-right: 1px solid var(--border-color);
     transform: translateX(-100%); /* 初期状態は隠す */
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1200;
-    padding-top: 0; /* ヘッダー分空けない、全画面ドロワー */
+    transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1100; /* ヘッダーより上にする */
 }
 
-.sidebar.active {
+/* サイドバーが開いた時 */
+/* bodyに .nav-open クラスがついている場合 */
+body.nav-open .sidebar {
     transform: translateX(0);
 }
 
@@ -101,6 +108,8 @@ h1, h2, h3 { font-family: 'Noto Serif JP', serif; }
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--border-color);
+    /* ヘッダーと同じ高さ分の余白をとって、閉じるボタンと被らないようにする */
+    margin-top: 40px; 
 }
 
 .site-subtitle {
@@ -109,30 +118,60 @@ h1, h2, h3 { font-family: 'Noto Serif JP', serif; }
     margin: 0;
 }
 
-.sidebar-content {
-    flex: 1;
-    overflow-y: auto;
-}
+.sidebar-content { flex: 1; overflow-y: auto; }
 
-/* オーバーレイ (黒幕) */
+/* オーバーレイ (スマホ用) */
 .sidebar-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.4);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s;
-    z-index: 1100;
+    transition: opacity var(--transition-speed);
+    z-index: 1050;
 }
-.sidebar.active + .sidebar-overlay {
+/* スマホなどでオーバーレイが必要な時だけ表示 */
+body.nav-open .sidebar-overlay {
     opacity: 1;
     visibility: visible;
 }
 
-/* --- Filters --- */
+/* --- Main Layout Push Logic (Gemini Style) --- */
+.main-content {
+    padding-top: calc(var(--header-height) + 2rem);
+    padding-left: 2rem;
+    padding-right: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    min-height: 100vh;
+    /* アニメーション設定 */
+    transition: margin-left var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1), 
+                max-width var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- PC (Desktop) Specific Styles --- */
+/* 画面幅が768px以上の時だけ「押し出し」動作をする */
+@media (min-width: 768px) {
+    /* サイドバーが開いている時 */
+    body.nav-open .app-header {
+        padding-left: calc(var(--sidebar-width) + 16px); /* ヘッダーの中身を右へずらす */
+    }
+
+    body.nav-open .main-content {
+        margin-left: var(--sidebar-width); /* コンテンツ全体を右へずらす */
+        max-width: calc(1000px - var(--sidebar-width)); /* 幅を調整して横スクロール防止 */
+    }
+
+    /* PCではオーバーレイを消す（Geminiのようにコンテンツを直接操作できるようにするなら） */
+    /* 今回は「押し出す」のでオーバーレイは不要 */
+    body.nav-open .sidebar-overlay {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
+/* --- Filters & Components (前回と同じ) --- */
 details { margin-bottom: 12px; }
 summary {
     cursor: pointer;
@@ -145,7 +184,6 @@ summary {
     padding: 8px 0;
 }
 summary:hover { color: var(--accent-color); }
-
 .checkbox-list { padding-left: 8px; }
 .checkbox-item {
     display: flex;
@@ -157,49 +195,27 @@ summary:hover { color: var(--accent-color); }
 .checkbox-item label { cursor: pointer; color: var(--text-muted); }
 .checkbox-item input { margin-right: 8px; accent-color: var(--accent-color); }
 
-/* --- Intro Icon (Book Style) --- */
 .intro-link-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 24px; height: 24px;
     border-radius: 4px;
     color: var(--text-muted);
     text-decoration: none;
     transition: all 0.2s;
-    background: transparent;
 }
-.intro-link-btn:hover {
-    background: #e1e4e8;
-    color: var(--accent-color);
-}
-/* 本のアイコンをCSSで表現 */
+.intro-link-btn:hover { background: #e1e4e8; color: var(--accent-color); }
 .book-icon {
-    width: 12px;
-    height: 14px;
+    width: 12px; height: 14px;
     border: 1.5px solid currentColor;
     border-radius: 1px 2px 2px 1px;
     position: relative;
 }
 .book-icon::before {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 8px;
-    height: 1.5px;
+    content: ''; position: absolute;
+    top: 2px; left: 2px; width: 8px; height: 1.5px;
     background: currentColor;
-}
-
-/* --- Main Layout --- */
-.main-content {
-    padding-top: calc(var(--header-height) + 2rem); /* ヘッダーの高さ分下げる */
-    padding-left: 2rem;
-    padding-right: 2rem;
-    max-width: 1000px;
-    margin: 0 auto;
-    min-height: 100vh;
 }
 
 /* Timeline Grid */
@@ -208,7 +224,6 @@ summary:hover { color: var(--accent-color); }
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 24px;
 }
-
 .card {
     background: #fff;
     border: 1px solid var(--border-color);
@@ -216,111 +231,31 @@ summary:hover { color: var(--accent-color); }
     padding: 24px;
     text-decoration: none;
     color: inherit;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     transition: all 0.2s;
 }
-.card:hover {
-    border-color: var(--accent-color);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
+.card:hover { border-color: var(--accent-color); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 .card-meta { margin-bottom: 12px; font-size: 0.75rem; color: var(--text-muted); display: flex; gap: 8px; }
-.tag {
-    background: #f1f1f1;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-weight: 500;
-}
+.tag { background: #f1f1f1; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
 .tag.country { background: #e8f4fc; color: #0969da; }
+.card-title { margin: 0 0 8px 0; font-size: 1.25rem; font-weight: 700; }
+.card-summary { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
 
-.card-title {
-    margin: 0 0 8px 0;
-    font-size: 1.25rem;
-    font-weight: 700;
-}
-.card-summary {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin: 0;
-}
-
-/* --- Breadcrumbs (Sticky & Spaced) --- */
-.header-left {
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-.breadcrumbs {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-left: 10px; /* ハンバーガーとの隙間 */
-    display: flex;
-    align-items: center;
-}
-.breadcrumbs a {
-    color: var(--text-muted);
-    text-decoration: none;
-    padding: 4px 8px; /* クリックしやすいように余白 */
-    border-radius: 4px;
-}
-.breadcrumbs a:hover {
-    background: #f3f4f6;
-    color: var(--accent-color);
-}
+/* Breadcrumbs */
+.header-left { display: flex; align-items: center; width: 100%; }
+.breadcrumbs { font-size: 0.9rem; color: var(--text-muted); margin-left: 10px; display: flex; align-items: center; white-space: nowrap; overflow: hidden; }
+.breadcrumbs a { color: var(--text-muted); text-decoration: none; padding: 4px 8px; border-radius: 4px; }
+.breadcrumbs a:hover { background: #f3f4f6; color: var(--accent-color); }
 .crumb-separator { margin: 0 4px; color: #d0d7de; }
 
-/* --- Article Layout --- */
-.article-body {
-    background: #fff;
-    max-width: 800px; /* 読みやすい幅に制限 */
-    margin: 0 auto;   /* 中央寄せ */
-    padding: 0 1rem 4rem 1rem;
-}
-
-.article-body h1 {
-    font-size: 2rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 16px;
-    margin-bottom: 32px;
-}
-
-.article-body h2 {
-    font-size: 1.5rem;
-    margin-top: 48px;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #eee;
-}
-
-/* Citations & Terms */
-.term-link {
-    color: var(--accent-color);
-    font-weight: 500;
-    text-decoration: none;
-    border-bottom: 1px dotted var(--accent-color);
-}
+/* Article & Citations */
+.article-body { background: #fff; max-width: 800px; margin: 0 auto; padding: 0 1rem 4rem 1rem; }
+.article-body h1 { font-size: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 32px; }
+.article-body h2 { font-size: 1.5rem; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
+.term-link { color: var(--accent-color); font-weight: 500; text-decoration: none; border-bottom: 1px dotted var(--accent-color); }
 .term-link:hover { background: #e8f4fc; }
-
-.references-section {
-    max-width: 800px;
-    margin: 48px auto 0 auto;
-    padding-top: 24px;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
+.references-section { max-width: 800px; margin: 48px auto 0 auto; padding-top: 24px; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-muted); }
 .references-section ul { padding-left: 20px; }
 .references-section li { margin-bottom: 8px; }
-
-.btn-reset {
-    width: 100%;
-    padding: 8px;
-    background: #fff;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    cursor: pointer;
-    color: var(--text-main);
-}
+.btn-reset { width: 100%; padding: 8px; background: #fff; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; color: var(--text-main); }
 .btn-reset:hover { background: #f6f8fa; }
