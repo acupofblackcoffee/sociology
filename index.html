@@ -9,73 +9,70 @@
 </head>
 <body class="page-index">
 
-    <!-- ハンバーガーボタン (常に表示) -->
-    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle Menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </button>
+    <!-- ヘッダーバー (Gemini/GitHub風) -->
+    <header class="app-header">
+        <button id="menu-toggle" class="menu-btn" aria-label="Menu">
+            <span class="menu-icon"></span>
+        </button>
+        <h1 class="header-title">Sociology Chronicle</h1>
+    </header>
 
     <div class="layout-container">
-        <!-- サイドバー：フィルタリング -->
+        <!-- サイドバー (ドロワーメニュー) -->
         <aside id="sidebar" class="sidebar">
-            <div class="sidebar-header">
-                <h1 class="site-title">Sociology Chronicle</h1>
-                <p class="site-subtitle">The Archive of Sociological Debates</p>
-            </div>
-
-            <div class="sidebar-content">
-                <!-- フィルタ群 (JSでアコーディオン生成) -->
-                <div class="filter-group">
-                    <details open>
-                        <summary>年代 (Era)</summary>
-                        <div id="filter-eras" class="checkbox-list"></div>
-                    </details>
+            <div class="sidebar-inner">
+                <div class="sidebar-header-area">
+                    <p class="site-subtitle">The Archive of Sociological Debates</p>
                 </div>
 
-                <div class="filter-group">
-                    <details>
-                        <summary>国家 (Country)</summary>
-                        <div id="filter-countries" class="checkbox-list"></div>
-                    </details>
-                </div>
+                <div class="sidebar-content">
+                    <div class="filter-group">
+                        <details open>
+                            <summary>年代 (Era)</summary>
+                            <div id="filter-eras" class="checkbox-list"></div>
+                        </details>
+                    </div>
 
-                <!-- 新設: 分野 -->
-                <div class="filter-group">
-                    <details>
-                        <summary>分野 (Field)</summary>
-                        <div id="filter-fields" class="checkbox-list"></div>
-                    </details>
-                </div>
+                    <div class="filter-group">
+                        <details>
+                            <summary>国家 (Country)</summary>
+                            <div id="filter-countries" class="checkbox-list"></div>
+                        </details>
+                    </div>
 
-                <div class="filter-group">
-                    <details>
-                        <summary>論点 (Topic)</summary>
-                        <div id="filter-topics" class="checkbox-list"></div>
-                    </details>
+                    <div class="filter-group">
+                        <details>
+                            <summary>分野 (Field)</summary>
+                            <div id="filter-fields" class="checkbox-list"></div>
+                        </details>
+                    </div>
+
+                    <div class="filter-group">
+                        <details>
+                            <summary>論点 (Topic)</summary>
+                            <div id="filter-topics" class="checkbox-list"></div>
+                        </details>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="sidebar-footer">
-                <button id="reset-filters" class="btn-reset">Reset Filters</button>
+                
+                <div class="sidebar-footer">
+                    <button id="reset-filters" class="btn-reset">Reset Filters</button>
+                </div>
             </div>
         </aside>
 
-        <!-- サイドバーが開いた時の背景黒幕 -->
+        <!-- サイドバー背景の黒幕 -->
         <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
-        <!-- メインエリア：タイムライン -->
+        <!-- メインコンテンツ -->
         <main class="main-content">
-            <div id="active-filters" class="active-filters-bar">
-                <!-- 選択中のフィルタ表示エリア -->
-            </div>
-            <div id="timeline-grid" class="timeline-grid">
-                <!-- JSでカード生成 -->
+            <div class="content-wrapper">
+                <div id="active-filters" class="active-filters-bar"></div>
+                <div id="timeline-grid" class="timeline-grid"></div>
             </div>
         </main>
     </div>
 
-    <!-- バージョン02のJSを読み込み -->
     <script src="app.js"></script>
 </body>
 </html>
