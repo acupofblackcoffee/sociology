@@ -257,5 +257,5 @@ summary:hover { color: var(--accent-color); }
 .references-section { max-width: 800px; margin: 48px auto 0 auto; padding-top: 24px; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-muted); }
 .references-section ul { padding-left: 20px; }
 .references-section li { margin-bottom: 8px; }
-.btn-reset { width: 100%; padding: 8px; background: #fff; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; color: var(--text-main); }
+.btn-reset { width: 90%; padding: 8px; background: #fff; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; color: var(--text-main); }
 .btn-reset:hover { background: #f6f8fa; }
