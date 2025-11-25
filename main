@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sociology Chronicle</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: アカデミックな雰囲気のために -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="page-index">
+
+    <div class="layout-container">
+        <!-- サイドバー：フィルタリング -->
+        <aside class="sidebar">
+            <h1 class="site-title">Sociology Chronicle</h1>
+            <p class="site-subtitle">The Archive of Sociological Debates</p>
+
+            <div class="filter-group">
+                <h3>年代 (Era)</h3>
+                <div id="filter-eras" class="checkbox-list"></div>
+            </div>
+
+            <div class="filter-group">
+                <h3>国家 (Country)</h3>
+                <div id="filter-countries" class="checkbox-list"></div>
+            </div>
+
+            <div class="filter-group">
+                <h3>論点 (Topic)</h3>
+                <div id="filter-topics" class="checkbox-list"></div>
+            </div>
+            
+            <button id="reset-filters" class="btn-reset">Reset Filters</button>
+        </aside>
+
+        <!-- メインエリア：タイムライン -->
+        <main class="main-content">
+            <div id="active-filters" class="active-filters-bar">
+                <!-- 選択中のフィルタがここに表示されます -->
+            </div>
+            <div id="timeline-grid" class="timeline-grid">
+                <!-- JSでカードが生成されます -->
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
