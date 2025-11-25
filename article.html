@@ -10,47 +10,58 @@
 </head>
 <body class="page-article">
 
-    <!-- 記事ページにもヘッダーを追加 -->
-    <header class="app-header sticky-header">
+    <!-- 共通ヘッダーモジュール -->
+    <header class="app-header">
         <div class="header-left">
             <button id="menu-toggle" class="menu-btn" aria-label="Menu">
                 <span class="menu-icon"></span>
             </button>
-            <!-- パンくずリストをヘッダー内に配置 -->
+            <h1 class="header-title"><a href="index.html">Sociology Chronicle</a></h1>
+        </div>
+        
+        <!-- 右側固定パンくずリスト -->
+        <div class="header-right">
             <nav id="breadcrumbs" class="breadcrumbs"></nav>
         </div>
     </header>
 
-    <!-- 記事ページでもサイドバーを使えるように配置 -->
-    <aside id="sidebar" class="sidebar">
-        <div class="sidebar-inner">
-            <div class="sidebar-header-area">
-                <h2 class="site-title-small">Sociology Chronicle</h2>
-            </div>
-            <!-- ここにフィルタ等は表示せず、シンプルなナビゲーションにするか、
-                 indexと同じフィルタを表示して、クリックしたらindexに戻る仕様にします -->
-            <div class="sidebar-content">
-                 <p style="padding: 1rem; color: #666; font-size: 0.9rem;">
-                     フィルタリング機能はトップページで使用できます。
-                 </p>
-                 <a href="index.html" class="btn-reset" style="text-align:center; text-decoration:none; display:block;">トップページへ戻る</a>
-            </div>
-        </div>
-    </aside>
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    <!-- 共通レイアウトコンテナ -->
+    <div class="app-container">
+        
+        <!-- 共通サイドバーモジュール -->
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="sidebar-header-area">
+                    <p class="site-subtitle">The Archive of Sociological Debates</p>
+                </div>
+                
+                <div class="sidebar-content">
+                    <div id="sidebar-filters-mount">
+                        <!-- JSでフィルタリストをここに生成 -->
+                    </div>
+                </div>
 
-    <main class="container">
-        <!-- 記事本文エリア -->
-        <article id="article-content" class="article-body">
-            <div class="loading">Loading Article...</div>
-        </article>
+                <div class="sidebar-footer">
+                    <button id="reset-filters" class="btn-reset">Reset Filters</button>
+                </div>
+            </div>
+        </aside>
 
-        <!-- 文献リスト -->
-        <section id="references-area" class="references-section" style="display:none;">
-            <h3>References</h3>
-            <ul id="references-list"></ul>
-        </section>
-    </main>
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <article id="article-content" class="article-body">
+                <div class="loading">Loading Article...</div>
+            </article>
+
+            <section id="references-area" class="references-section" style="display:none;">
+                <h3>References</h3>
+                <ul id="references-list"></ul>
+            </section>
+        </main>
+
+        <!-- スマホ用オーバーレイ -->
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    </div>
 
     <script src="app.js"></script>
 </body>
