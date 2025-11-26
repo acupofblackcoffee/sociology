@@ -2,7 +2,6 @@ const DATA_PATH = {
     main: 'data/main_data.json',
     taxonomy: 'data/taxonomy.json',
     references: 'data/references.json'
-    // intro: ... ← 解説用JSONは不要になったので削除
 };
 
 let state = {
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupHamburgerMenu();
     renderSidebarFilters(); 
     
-    // パンくず初期化
     const breadcrumbs = document.getElementById('breadcrumbs');
     if(breadcrumbs) breadcrumbs.innerHTML = `<a href="index.html">TOP</a>`;
 
@@ -43,7 +41,6 @@ async function loadAllData() {
     } catch (e) { console.error("Data Load Error:", e); }
 }
 
-/* --- ハンバーガーメニュー制御 --- */
 function setupHamburgerMenu() {
     const toggle = document.getElementById('menu-toggle');
     const overlay = document.getElementById('sidebar-overlay');
@@ -61,7 +58,6 @@ function setupHamburgerMenu() {
     }
 }
 
-/* --- サイドバーフィルタ生成 --- */
 function renderSidebarFilters() {
     const mountPoint = document.getElementById('sidebar-filters-mount');
     if (!mountPoint) return;
@@ -144,7 +140,6 @@ function renderSidebarFilters() {
     }
 }
 
-/* --- パンくずリスト更新 --- */
 function updateBreadcrumbs(item = null, categoryLabel = null) {
     const nav = document.getElementById('breadcrumbs');
     if (!nav) return;
@@ -152,11 +147,17 @@ function updateBreadcrumbs(item = null, categoryLabel = null) {
     let html = `<a href="index.html">TOP</a>`;
 
     if (item) {
-        const countryLabel = state.taxonomy.countries.find(c => c.id === item.country_id)?.label || 'Unknown';
-        const fieldId = item.field_tags && item.field_tags.length > 0 ? item.field_tags[0] : null;
-        const fieldLabel = fieldId ? (state.taxonomy.fields.find(f => f.id === fieldId)?.label || fieldId) : '';
+        // ラベル解決時にマスタ存在チェックを行う（なければIDを表示せずUnknown等にする）
+        const countryObj = state.taxonomy.countries.find(c => c.id === item.country_id);
+        const countryLabel = countryObj ? countryObj.label : null; // マスタになければnull
 
-        html += ` <span class="crumb-separator">/</span> <a href="index.html?country=${item.country_id}">${countryLabel}</a>`;
+        const fieldId = item.field_tags && item.field_tags.length > 0 ? item.field_tags[0] : null;
+        const fieldObj = fieldId ? state.taxonomy.fields.find(f => f.id === fieldId) : null;
+        const fieldLabel = fieldObj ? fieldObj.label : null;
+
+        if (countryLabel) {
+            html += ` <span class="crumb-separator">/</span> <a href="index.html?country=${item.country_id}">${countryLabel}</a>`;
+        }
         if (fieldLabel) {
             html += ` <span class="crumb-separator">/</span> <a href="index.html?field=${fieldId}">${fieldLabel}</a>`;
         }
@@ -168,7 +169,6 @@ function updateBreadcrumbs(item = null, categoryLabel = null) {
     nav.innerHTML = html;
 }
 
-/* --- Index Page Logic --- */
 function initIndexPage() {
     renderTimeline();
 
@@ -218,20 +218,40 @@ function renderTimeline() {
         activeFiltersBar.textContent = filtered.length > 0 ? `${filtered.length} items` : 'No items';
     }
 
+    // ★修正ポイント: カード描画時にマスタデータ存在チェックを行う
     filtered.forEach(item => {
-        const countryLabel = state.taxonomy.countries.find(c => c.id === item.country_id)?.label || item.country_id;
-        const eraLabel = state.taxonomy.eras.find(e => e.id === item.era_id)?.label || item.era_id;
+        // マスタにない場合は null になる
+        const countryObj = state.taxonomy.countries.find(c => c.id === item.country_id);
+        const eraObj = state.taxonomy.eras.find(e => e.id === item.era_id);
+        
+        // マスタにないラベルは表示しない
+        const countryLabel = countryObj ? countryObj.label : null;
+        const eraLabel = eraObj ? eraObj.label : null;
 
         const card = document.createElement('a');
         card.className = 'card';
         if(item.file) card.href = `article.html?id=${item.id}`;
         if(!item.file) { card.removeAttribute('href'); card.style.cursor = 'default'; }
 
+        // タグのHTMLを動的に組み立てる（存在するラベルだけ表示）
+        let metaHTML = '<div class="card-meta">';
+        if (eraLabel) metaHTML += `<span class="tag era">${eraLabel}</span>`;
+        if (countryLabel) metaHTML += `<span class="tag country">${countryLabel}</span>`;
+        
+        // 分野タグも同様にチェック
+        if (item.field_tags && state.taxonomy.fields) {
+            item.field_tags.forEach(fid => {
+                const fObj = state.taxonomy.fields.find(f => f.id === fid);
+                if(fObj) {
+                    // 分野タグ用のスタイルがあればクラスを追加、なければ汎用タグ
+                    metaHTML += `<span class="tag">${fObj.label}</span>`; 
+                }
+            });
+        }
+        metaHTML += '</div>';
+
         card.innerHTML = `
-            <div class="card-meta">
-                <span class="tag era">${eraLabel}</span>
-                <span class="tag country">${countryLabel}</span>
-            </div>
+            ${metaHTML}
             <h3 class="card-title">${item.title}</h3>
             <p class="card-summary">${item.summary}</p>
         `;
@@ -246,7 +266,6 @@ function resetFilters() {
     window.history.replaceState({}, '', window.location.pathname);
 }
 
-/* --- Article Page Logic --- */
 async function initArticlePage() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
@@ -309,7 +328,6 @@ function processCitations(element) {
     });
 }
 
-/* --- Intro Page Logic (Markdown読み込み対応) --- */
 async function initIntroPage() {
     const params = new URLSearchParams(window.location.search);
     const type = params.get('type');
@@ -324,9 +342,7 @@ async function initIntroPage() {
         updateBreadcrumbs(null, labelData.label);
         document.getElementById('intro-title').textContent = labelData.label;
 
-        // ★ここが修正点: introductionsフォルダからMarkdownファイルをfetchする
         try {
-            // 例: introductions/de.md を読み込む
             const res = await fetch(`introductions/${id}.md`);
             
             if(res.ok) {
