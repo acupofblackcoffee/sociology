@@ -11,4 +11,46 @@
     "title": "Die protestantische Ethik und der Geist des Kapitalismus",
     "url": ""
   }
+  "ref_jones_1986": {
+  "author": "Robert Alun Jones",
+  "year": 1986,
+  "title": "Emile Durkheim: An Introduction to Four Major Works",
+  "url": "https://durkheim.uchicago.edu/"
+},
+"ref_lukes_1973": {
+  "author": "Steven Lukes",
+  "year": 1973,
+  "title": "Emile Durkheim: His Life and Work: A Historical and Critical Study",
+  "url": "https://sup.org/books/title/?id=2879"
+},
+"ref_durkheim_1893": {
+  "author": "Émile Durkheim",
+  "year": 1893,
+  "title": "De la division du travail social (The Division of Labour in Society)",
+  "url": "https://books.google.com/books/about/The_Division_of_Labor_in_Society.html"
+},
+"ref_durkheim_1895": {
+  "author": "Émile Durkheim",
+  "year": 1895,
+  "title": "Les Règles de la méthode sociologique (The Rules of Sociological Method)",
+  "url": "https://www.worldcat.org/title/regles-de-la-methode-sociologique/oclc/1025876"
+},
+"ref_durkheim_1897": {
+  "author": "Émile Durkheim",
+  "year": 1897,
+  "title": "Le Suicide: Étude de sociologie (Suicide: A Study in Sociology)",
+  "url": "https://durkheim.uchicago.edu/Summaries/suicide.html"
+},
+"ref_durkheim_1912": {
+  "author": "Émile Durkheim",
+  "year": 1912,
+  "title": "Les Formes élémentaires de la vie religieuse (The Elementary Forms of Religious Life)",
+  "url": "https://durkheim.uchicago.edu/Summaries/forms.html"
+},
+"ref_iep_durkheim": {
+  "author": "Internet Encyclopedia of Philosophy",
+  "year": 2024,
+  "title": "Emile Durkheim",
+  "url": "https://iep.utm.edu/emile-durkheim/"
+}
 }
