@@ -1,30 +1,575 @@
 {
   "eras": [
-    { "id": "era_foundation", "label": "古典・創設期 (~1920s)" },
-    { "id": "era_system", "label": "体系化と動揺 (1930s-50s)" },
-    { "id": "era_turn", "label": "異議申立てと転換 (1960s-70s)" },
-    { "id": "era_reconstruction", "label": "再構築と文化 (1980s-90s)" },
-    { "id": "era_fluidity", "label": "流動性とデジタル (2000s~)" }
+    { "id": "era_foundation", "label": "古典・創設期 (~1920s)", "description": "社会学の誕生と古典的基礎理論の形成期。コント、スペンサー、マルクス、デュルケーム、ウェーバー、ジンメルらが活躍。" },
+    { "id": "era_system", "label": "体系化と動揺 (1930s-50s)", "description": "パーソンズによる構造機能主義の体系化、シカゴ学派の展開、フランクフルト学派の批判理論の形成期。" },
+    { "id": "era_turn", "label": "異議申立てと転換 (1960s-70s)", "description": "機能主義批判、紛争理論、シンボリック相互作用論、エスノメソドロジー、新しい社会運動の台頭。" },
+    { "id": "era_reconstruction", "label": "再構築と文化 (1980s-90s)", "description": "ギデンズの構造化理論、ブルデューの実践理論、ルーマンのシステム論、ポストモダニズム、カルチュラル・ターン。" },
+    { "id": "era_fluidity", "label": "流動性とデジタル (2000s~)", "description": "グローバル化、リスク社会論、流動的近代、計算社会科学、デジタルメディア研究の展開。" }
   ],
+
+  "regions": [
+    { "id": "region_western_europe", "label": "西ヨーロッパ" },
+    { "id": "region_northern_europe", "label": "北ヨーロッパ" },
+    { "id": "region_eastern_europe", "label": "東ヨーロッパ" },
+    { "id": "region_southern_europe", "label": "南ヨーロッパ" },
+    { "id": "region_north_america", "label": "北米" },
+    { "id": "region_latin_america", "label": "ラテンアメリカ" },
+    { "id": "region_east_asia", "label": "東アジア" },
+    { "id": "region_south_asia", "label": "南アジア" },
+    { "id": "region_southeast_asia", "label": "東南アジア" },
+    { "id": "region_oceania", "label": "オセアニア" },
+    { "id": "region_middle_east", "label": "中東" },
+    { "id": "region_africa", "label": "アフリカ" }
+  ],
+
   "countries": [
-    { "id": "de", "label": "ドイツ", "code": "DE" },
-    { "id": "fr", "label": "フランス", "code": "FR" },
-    { "id": "us", "label": "アメリカ", "code": "US" },
-    { "id": "uk", "label": "イギリス", "code": "GB" },
-    { "id": "jp", "label": "日本", "code": "JP" }
+    {
+      "id": "de",
+      "label": "ドイツ",
+      "code": "DE",
+      "region_id": "region_western_europe",
+      "description": "哲学的伝統を背景に、意味解釈や歴史性を重視する社会学が発展。ウェーバー、ジンメル、フランクフルト学派、ルーマン、ハーバーマスなどを輩出。"
+    },
+    {
+      "id": "fr",
+      "label": "フランス",
+      "code": "FR",
+      "region_id": "region_western_europe",
+      "description": "デュルケームに始まる実証主義的・構造主義的アプローチが特徴。ブルデュー、トゥレーヌ、フーコーらが活躍。"
+    },
+    {
+      "id": "us",
+      "label": "アメリカ",
+      "code": "US",
+      "region_id": "region_north_america",
+      "description": "シカゴ学派のフィールドワーク、パーソンズの構造機能主義、ミードのシンボリック相互作用論など、多様なアプローチが展開。"
+    },
+    {
+      "id": "uk",
+      "label": "イギリス",
+      "code": "UK",
+      "region_id": "region_western_europe",
+      "description": "スペンサーの社会進化論から始まり、ギデンズの構造化理論、バーミンガム学派のカルチュラル・スタディーズなどが発展。"
+    },
+    {
+      "id": "jp",
+      "label": "日本",
+      "code": "JP",
+      "region_id": "region_east_asia",
+      "description": "西洋社会学の受容と独自の展開。戦後の農村社会学、都市社会学、近年の計量社会学・質的研究の発展。"
+    },
+    {
+      "id": "ca",
+      "label": "カナダ",
+      "code": "CA",
+      "region_id": "region_north_america",
+      "description": "ゴフマンの相互作用論、メディア研究のマクルーハンなど、北米社会学の重要な拠点。"
+    },
+    {
+      "id": "au",
+      "label": "オーストラリア",
+      "code": "AU",
+      "region_id": "region_oceania",
+      "description": "移民研究、多文化主義研究、環境社会学などで独自の展開。"
+    },
+    {
+      "id": "it",
+      "label": "イタリア",
+      "code": "IT",
+      "region_id": "region_southern_europe",
+      "description": "パレート、グラムシなど独自の理論的伝統。政治社会学、エリート論の発展。"
+    },
+    {
+      "id": "es",
+      "label": "スペイン",
+      "code": "ES",
+      "region_id": "region_southern_europe",
+      "description": ""
+    },
+    {
+      "id": "nl",
+      "label": "オランダ",
+      "code": "NL",
+      "region_id": "region_western_europe",
+      "description": ""
+    },
+    {
+      "id": "be",
+      "label": "ベルギー",
+      "code": "BE",
+      "region_id": "region_western_europe",
+      "description": ""
+    },
+    {
+      "id": "at",
+      "label": "オーストリア",
+      "code": "AT",
+      "region_id": "region_western_europe",
+      "description": "シュッツの現象学的社会学、ウィーン学団の影響など。"
+    },
+    {
+      "id": "ch",
+      "label": "スイス",
+      "code": "CH",
+      "region_id": "region_western_europe",
+      "description": ""
+    },
+    {
+      "id": "se",
+      "label": "スウェーデン",
+      "code": "SE",
+      "region_id": "region_northern_europe",
+      "description": "福祉国家研究、ジェンダー研究の先進国。"
+    },
+    {
+      "id": "no",
+      "label": "ノルウェー",
+      "code": "NO",
+      "region_id": "region_northern_europe",
+      "description": ""
+    },
+    {
+      "id": "dk",
+      "label": "デンマーク",
+      "code": "DK",
+      "region_id": "region_northern_europe",
+      "description": ""
+    },
+    {
+      "id": "fi",
+      "label": "フィンランド",
+      "code": "FI",
+      "region_id": "region_northern_europe",
+      "description": ""
+    },
+    {
+      "id": "pl",
+      "label": "ポーランド",
+      "code": "PL",
+      "region_id": "region_eastern_europe",
+      "description": "ズナニエツキの『ポーランド農民』など移民研究の先駆。バウマンを輩出。"
+    },
+    {
+      "id": "ru",
+      "label": "ロシア",
+      "code": "RU",
+      "region_id": "region_eastern_europe",
+      "description": "ソローキンの社会移動論、ソ連期のマルクス主義社会学など。"
+    },
+    {
+      "id": "hu",
+      "label": "ハンガリー",
+      "code": "HU",
+      "region_id": "region_eastern_europe",
+      "description": "マンハイムの知識社会学、ルカーチの批判理論など。"
+    },
+    {
+      "id": "cz",
+      "label": "チェコ",
+      "code": "CZ",
+      "region_id": "region_eastern_europe",
+      "description": ""
+    },
+    {
+      "id": "cn",
+      "label": "中国",
+      "code": "CN",
+      "region_id": "region_east_asia",
+      "description": "費孝通の農村社会学、改革開放後の社会学復興、現代の都市化・格差研究。"
+    },
+    {
+      "id": "kr",
+      "label": "韓国",
+      "code": "KR",
+      "region_id": "region_east_asia",
+      "description": "産業化・民主化の社会学的分析、東アジア比較研究の拠点。"
+    },
+    {
+      "id": "tw",
+      "label": "台湾",
+      "code": "TW",
+      "region_id": "region_east_asia",
+      "description": ""
+    },
+    {
+      "id": "in",
+      "label": "インド",
+      "code": "IN",
+      "region_id": "region_south_asia",
+      "description": "カースト研究、ポストコロニアル研究、サバルタン研究など独自の伝統。"
+    },
+    {
+      "id": "sg",
+      "label": "シンガポール",
+      "code": "SG",
+      "region_id": "region_southeast_asia",
+      "description": ""
+    },
+    {
+      "id": "ph",
+      "label": "フィリピン",
+      "code": "PH",
+      "region_id": "region_southeast_asia",
+      "description": ""
+    },
+    {
+      "id": "br",
+      "label": "ブラジル",
+      "code": "BR",
+      "region_id": "region_latin_america",
+      "description": "フレイレの批判的教育学、従属理論、解放の神学との交差など。"
+    },
+    {
+      "id": "mx",
+      "label": "メキシコ",
+      "code": "MX",
+      "region_id": "region_latin_america",
+      "description": ""
+    },
+    {
+      "id": "ar",
+      "label": "アルゼンチン",
+      "code": "AR",
+      "region_id": "region_latin_america",
+      "description": "ジェルマーニの近代化論、ラテンアメリカ社会学の拠点。"
+    },
+    {
+      "id": "za",
+      "label": "南アフリカ",
+      "code": "ZA",
+      "region_id": "region_africa",
+      "description": "アパルトヘイト研究、ポストコロニアル社会学の発展。"
+    },
+    {
+      "id": "eg",
+      "label": "エジプト",
+      "code": "EG",
+      "region_id": "region_middle_east",
+      "description": ""
+    },
+    {
+      "id": "il",
+      "label": "イスラエル",
+      "code": "IL",
+      "region_id": "region_middle_east",
+      "description": "アイゼンシュタットの比較近代化論、移民研究など。"
+    },
+    {
+      "id": "tr",
+      "label": "トルコ",
+      "code": "TR",
+      "region_id": "region_middle_east",
+      "description": ""
+    },
+    {
+      "id": "nz",
+      "label": "ニュージーランド",
+      "code": "NZ",
+      "region_id": "region_oceania",
+      "description": ""
+    },
+    {
+      "id": "intl",
+      "label": "国際的/複数国",
+      "code": "INTL",
+      "region_id": null,
+      "description": "複数の国にまたがる議論や、特定の国に帰属しない理論的展開。"
+    }
   ],
+
   "fields": [
-    { "id": "theory", "label": "理論社会学" },
-    { "id": "urban", "label": "都市社会学" },
-    { "id": "family", "label": "家族社会学" },
-    { "id": "econ", "label": "経済社会学" },
-    { "id": "culture", "label": "文化社会学" },
-    { "id": "stratification", "label": "階層・不平等" }
+    {
+      "id": "theory",
+      "label": "理論社会学",
+      "description": "社会学の基礎理論、メタ理論、方法論的議論を扱う。社会学史、認識論的問題も含む。"
+    },
+    {
+      "id": "method",
+      "label": "方法論・社会調査",
+      "description": "計量分析、質的研究、フィールドワーク、計算社会科学など研究方法に関する分野。"
+    },
+    {
+      "id": "urban",
+      "label": "都市・地域社会学",
+      "description": "都市化、地域コミュニティ、ジェントリフィケーション、近隣効果など空間と社会の関係を研究。"
+    },
+    {
+      "id": "family",
+      "label": "家族・親密圏",
+      "description": "家族構造の変容、親密性、ケア関係、結婚・離婚、世代間関係などを扱う。"
+    },
+    {
+      "id": "econ",
+      "label": "経済社会学",
+      "description": "市場、労働、消費、組織、資本主義の社会学的分析。"
+    },
+    {
+      "id": "labor",
+      "label": "労働・雇用",
+      "description": "非正規雇用、労働市場、職業、ワークライフバランス、働き方の変容を研究。"
+    },
+    {
+      "id": "poverty",
+      "label": "貧困・福祉",
+      "description": "貧困、社会的排除、社会保障、社会政策、福祉国家を扱う。"
+    },
+    {
+      "id": "stratification",
+      "label": "社会階層・不平等",
+      "description": "階級、階層、社会移動、格差、不平等の構造と再生産を研究。"
+    },
+    {
+      "id": "education",
+      "label": "教育社会学",
+      "description": "学校、学歴、教育機会、文化資本、選抜システムの社会学的分析。"
+    },
+    {
+      "id": "culture",
+      "label": "文化社会学",
+      "description": "文化生産・消費、サブカルチャー、趣味、芸術、ライフスタイルを研究。"
+    },
+    {
+      "id": "media",
+      "label": "メディア・コミュニケーション",
+      "description": "マスメディア、インターネット、SNS、公共圏、世論形成を扱う。"
+    },
+    {
+      "id": "religion",
+      "label": "宗教社会学",
+      "description": "宗教と社会の関係、世俗化、宗教的多元主義、スピリチュアリティを研究。"
+    },
+    {
+      "id": "politics",
+      "label": "政治社会学",
+      "description": "権力、国家、市民社会、政治参加、ナショナリズム、民主主義を扱う。"
+    },
+    {
+      "id": "social_movements",
+      "label": "社会運動論",
+      "description": "集合行動、社会運動、市民運動、NGO、抗議行動を研究。"
+    },
+    {
+      "id": "gender",
+      "label": "ジェンダー・セクシュアリティ",
+      "description": "性別分業、男性性/女性性、LGBTQ+、フェミニズム、性暴力を扱う。"
+    },
+    {
+      "id": "race_ethnicity",
+      "label": "民族・エスニシティ",
+      "description": "民族関係、人種、多文化主義、移民、ディアスポラを研究。"
+    },
+    {
+      "id": "discrimination",
+      "label": "差別・マイノリティ",
+      "description": "差別の構造、被差別集団、マイノリティの経験、インターセクショナリティを扱う。"
+    },
+    {
+      "id": "medical",
+      "label": "医療・健康",
+      "description": "医療化、病いの経験、医療制度、公衆衛生の社会学的分析。"
+    },
+    {
+      "id": "care",
+      "label": "ケア・障害",
+      "description": "ケア労働、介護、障害学、ディスアビリティの社会モデルを研究。"
+    },
+    {
+      "id": "deviance",
+      "label": "逸脱・犯罪",
+      "description": "犯罪、逸脱行動、ラベリング、社会統制、刑事司法を扱う。"
+    },
+    {
+      "id": "environment",
+      "label": "環境社会学",
+      "description": "環境問題、災害、リスク、持続可能性、人間-自然関係を研究。"
+    },
+    {
+      "id": "disaster",
+      "label": "災害・技術",
+      "description": "災害復興、原子力、技術の社会的構成、科学技術社会論（STS）を扱う。"
+    },
+    {
+      "id": "international",
+      "label": "国際社会学・グローバリゼーション",
+      "description": "国際移動、グローバル化、世界システム、トランスナショナリズムを研究。"
+    },
+    {
+      "id": "historical",
+      "label": "歴史社会学",
+      "description": "歴史的比較分析、社会変動の長期的過程、記憶と歴史を扱う。"
+    },
+    {
+      "id": "knowledge",
+      "label": "知識社会学",
+      "description": "知識の社会的構成、イデオロギー、科学知識、専門家システムを研究。"
+    },
+    {
+      "id": "body",
+      "label": "身体の社会学",
+      "description": "身体技法、感情、美容、スポーツ、身体の社会的構築を扱う。"
+    },
+    {
+      "id": "everyday",
+      "label": "日常生活の社会学",
+      "description": "相互行為、会話分析、エスノメソドロジー、日常世界の秩序を研究。"
+    },
+    {
+      "id": "life_course",
+      "label": "ライフコース・世代",
+      "description": "年齢、世代、ライフコース、高齢化、若者研究を扱う。"
+    },
+    {
+      "id": "consumption",
+      "label": "消費社会学",
+      "description": "消費行動、消費文化、広告、ブランド、物質文化を研究。"
+    },
+    {
+      "id": "organization",
+      "label": "組織社会学",
+      "description": "官僚制、企業組織、制度、組織文化、ネットワークを扱う。"
+    }
   ],
+
   "topics": [
-    { "id": "rationalization", "label": "合理化" },
-    { "id": "structure_agency", "label": "構造と主体" },
-    { "id": "micro_macro", "label": "ミクロとマクロ" },
-    { "id": "modernity", "label": "近代性" }
+    {
+      "id": "rationalization",
+      "label": "合理化・近代化",
+      "description": "ウェーバーの合理化テーゼ、脱魔術化、官僚制化、マクドナルド化など近代社会の特質に関する議論。"
+    },
+    {
+      "id": "structure_agency",
+      "label": "構造と行為者",
+      "description": "社会構造と個人の行為の関係をめぐる古典的論争。構造化理論、ハビトゥス論などの統合理論を含む。"
+    },
+    {
+      "id": "micro_macro",
+      "label": "ミクロとマクロ",
+      "description": "ミクロ社会学とマクロ社会学の関係、還元主義と全体論、分析レベルの統合に関する議論。"
+    },
+    {
+      "id": "modernity",
+      "label": "近代性・モダニティ",
+      "description": "近代社会の本質、複数の近代性、ポストモダン、再帰的近代化、後期近代をめぐる議論。"
+    },
+    {
+      "id": "order_conflict",
+      "label": "秩序と紛争",
+      "description": "社会秩序はいかにして可能か、機能主義と紛争理論の対立、権力と支配の問題。"
+    },
+    {
+      "id": "positivism_interpretivism",
+      "label": "実証主義と解釈主義",
+      "description": "社会学の方法論をめぐる認識論的対立。説明と理解、量的研究と質的研究の関係。"
+    },
+    {
+      "id": "realism_constructionism",
+      "label": "実在論と構築主義",
+      "description": "社会的実在の存在論的地位をめぐる議論。批判的実在論、社会構成主義、強い/弱い構築主義。"
+    },
+    {
+      "id": "individualism_holism",
+      "label": "個人主義と全体論",
+      "description": "方法論的個人主義と方法論的集合主義（全体論）の対立。社会は個人に還元可能か。"
+    },
+    {
+      "id": "capital",
+      "label": "資本の諸形態",
+      "description": "経済資本、文化資本、社会関係資本、象徴資本など、ブルデュー以降の資本概念の展開。"
+    },
+    {
+      "id": "power",
+      "label": "権力・支配",
+      "description": "権力の源泉と形態、支配の正当性、規律権力、生権力、象徴暴力をめぐる議論。"
+    },
+    {
+      "id": "identity",
+      "label": "アイデンティティ",
+      "description": "自己、アイデンティティの形成と変容、承認、アイデンティティ・ポリティクスに関する議論。"
+    },
+    {
+      "id": "globalization",
+      "label": "グローバル化",
+      "description": "経済・文化・政治のグローバル化、世界システム論、グローカル化、コスモポリタニズム。"
+    },
+    {
+      "id": "risk",
+      "label": "リスク・不確実性",
+      "description": "リスク社会論、不確実性の増大、信頼、再帰的近代化に関する議論。"
+    },
+    {
+      "id": "solidarity",
+      "label": "連帯・社会統合",
+      "description": "機械的連帯と有機的連帯、社会的結束、市民社会、コミュニティの変容。"
+    },
+    {
+      "id": "reproduction",
+      "label": "社会的再生産",
+      "description": "階級・不平等の再生産メカニズム、文化的再生産、世代間移動に関する議論。"
+    },
+    {
+      "id": "recognition",
+      "label": "承認・再分配",
+      "description": "承認の政治と再分配の政治、アイデンティティ政治と階級政治の緊張関係。"
+    },
+    {
+      "id": "public_sphere",
+      "label": "公共圏・親密圏",
+      "description": "公共圏の構造転換、公と私の境界、親密性の変容に関する議論。"
+    },
+    {
+      "id": "social_change",
+      "label": "社会変動",
+      "description": "社会変動の原因と方向性、進化論、革命論、経路依存性に関する議論。"
+    },
+    {
+      "id": "time_space",
+      "label": "時間と空間",
+      "description": "時空間の圧縮、時間の加速、場所と空間、モビリティに関する議論。"
+    },
+    {
+      "id": "body_emotion",
+      "label": "身体・感情",
+      "description": "身体の社会学、感情社会学、身体化された実践、感情労働に関する議論。"
+    },
+    {
+      "id": "everyday_life",
+      "label": "日常性・生活世界",
+      "description": "日常生活の社会学、生活世界、当たり前の構造、相互行為秩序に関する議論。"
+    },
+    {
+      "id": "welfare_state",
+      "label": "福祉国家・社会政策",
+      "description": "福祉国家の類型、社会政策、ケアの社会化、福祉レジームに関する議論。"
+    },
+    {
+      "id": "medicalization",
+      "label": "医療化・生政治",
+      "description": "社会問題の医療化、生権力、健康と病いの社会的構築に関する議論。"
+    },
+    {
+      "id": "colonialism_postcolonialism",
+      "label": "植民地主義・脱植民地化",
+      "description": "植民地主義の遺産、ポストコロニアル理論、サバルタン研究、知の脱植民地化。"
+    },
+    {
+      "id": "digital_society",
+      "label": "デジタル社会・情報化",
+      "description": "情報社会、ネットワーク社会、デジタルメディア、AI・アルゴリズム社会に関する議論。"
+    },
+    {
+      "id": "secularization",
+      "label": "世俗化・宗教の変容",
+      "description": "世俗化テーゼとその批判、宗教的多元主義、スピリチュアリティの台頭。"
+    },
+    {
+      "id": "work_life",
+      "label": "労働と生活",
+      "description": "労働の意味、ワークライフバランス、労働の終焉論、ベーシックインカムに関する議論。"
+    },
+    {
+      "id": "care_ethics",
+      "label": "ケアと倫理",
+      "description": "ケアの倫理、依存と自律、脆弱性、ケア関係の再編に関する議論。"
+    }
   ]
 }
