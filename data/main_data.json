@@ -29,4 +29,15 @@
     "file": null,
     "summary": "理解社会学の創始者。合理化のパラドックスを指摘した。"
   }
+  {
+  "id": "person_durkheim",
+  "type": "person",
+  "title": "É.デュルケーム",
+  "era_id": "era_early",
+  "country_id": "fr",
+  "field_tags": ["theory"],
+  "topic_tags": ["structure_agency", "rationalization"],
+  "file": "durkheim.md",
+  "summary": "フランス社会学の確立者。社会的事実論と連帯論を展開。"
+  }
 ]
